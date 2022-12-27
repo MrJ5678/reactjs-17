@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+    <script src="./babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function Border(props) {
+        return <div>{props.children}</div>;
+      }
+
+      function List(props) {
+        console.log(props);
+        return (
+          <ul>
+            {props.items.map((item, index) => (
+              <li key={index}>{props.children[0](item)}</li>
+            ))}
+
+            {/* { for (const item of props.items) {
+                return <li>{props.children(item)}</li>
+              }
+            } */}
+          </ul>
+        );
+      }
+      ReactDOM.render(
+        <List
+          items={[
+            { x: 1, y: 2 },
+            { x: 5, y: 9 }
+          ]}
+        >
+          {item => (
+            <span>
+              {item.x} - {item.y}
+            </span>
+          )}
+          {1}
+        </List>,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>

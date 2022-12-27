@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+
+    <!-- Don't use this in production: -->
+    <!-- <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
+    <script src="./babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      // function Counter(props) {
+      //   props.onRender();
+      //   function f(e) {
+      //     console.log(e);
+      //   }
+      //   return <h1 onClick={f}>事件</h1>;
+      // }
+      class Toggle extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            show: true,
+            text: '',
+            todos: [
+              { content: 'eat', done: false },
+              { content: 'sleep', done: true },
+              { content: 'drink', done: false }
+            ]
+          };
+        }
+
+        handleClick = () => {
+          this.setState({
+            show: !this.state.show
+          });
+        };
+
+        handleInputChange = e => {
+          this.setState({
+            text: e.target.value
+          });
+        };
+
+        handleCheck = idx => {
+          this.setState({
+            todos: this.state.todos.map((todo, index) => {
+              if (index !== idx) {
+                return todo;
+              } else {
+                return {
+                  ...todo,
+                  done: !todo.done
+                };
+              }
+            })
+          });
+        };
+
+        render() {
+          return (
+            <div>
+              <button onClick={this.handleClick}>Toggle show</button>
+              {this.state.show && (
+                <div>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel,
+                  sunt.
+                </div>
+              )}
+              <div>
+                <input
+                  type="text"
+                  value={this.state.text}
+                  onChange={this.handleInputChange}
+                />
+                {this.state.todos.map((todo, idx) => (
+                  <div key={idx}>
+                    <input
+                      type="checkbox"
+                      checked={todo.done}
+                      onChange={() => this.handleCheck(idx)}
+                    />
+                    <span>{todo.content}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Toggle />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

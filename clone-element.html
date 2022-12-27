@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+    <script src="./babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function App(props) {
+        let [a, b] = props.children;
+        // console.log(a);
+        // console.log(b);
+        let c = React.cloneElement(b, {
+          onClick: function (e) {
+            console.log(1);
+          }
+        });
+        const handleClick = e => {
+          console.log(e);
+        };
+        // console.log(c);
+        return (
+          <div>
+            <h1>App</h1>
+            <div onClick={handleClick}>
+              {a} {b} {c}
+            </div>
+          </div>
+        );
+      }
+      ReactDOM.render(
+        <App>
+          <div>div</div>
+          <span id="span" className="span">
+            span
+          </span>
+        </App>,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>

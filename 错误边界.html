@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+    <script src="./babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class App extends React.Component {
+        render() {
+          return (
+            <div>
+              <Foo />
+              <Bar />
+            </div>
+          );
+        }
+      }
+
+      function Foo() {
+        return <div>Foo</div>;
+      }
+
+      class Bar extends React.Component {
+        state = {
+          showBar: true
+        };
+        // componentDidCatch(e) {
+        //   console.log(22222222, e);
+        //   this.setState({
+        //     showBar: false
+        //   });
+        // }
+        static getDerivedStateFromProps(props) {
+          return {};
+        }
+        // static getDerivedStateFromError(e) {
+        //   console.log(11111111, e);
+
+        //   return {
+        //     showBar: false
+        //   };
+        // }
+        render() {
+          return (
+            <div>
+              {this.state.showBar ? <Baz /> : <div>Something went wrong</div>}
+            </div>
+          );
+        }
+      }
+
+      function Baz() {
+        2();
+        return <div>Baz</div>;
+      }
+      ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+    <!--
+      Note: this page is a great way to try React but it's not suitable for production.
+      It slowly compiles JSX with Babel in the browser and uses a large development build of React.
+
+      Read this section for a production-ready setup with JSX:
+      https://reactjs.org/docs/add-react-to-a-website.html#add-jsx-to-a-project
+
+      In a larger project, you can use an integrated toolchain that includes JSX instead:
+      https://reactjs.org/docs/create-a-new-react-app.html
+
+      You can also use React without JSX, in which case you can remove Babel:
+      https://reactjs.org/docs/react-without-jsx.html
+    -->
+  </body>
+</html>

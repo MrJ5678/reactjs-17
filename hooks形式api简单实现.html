@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+    <script src="./babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      var funcStateMap = new Map();
+      var currentRunningFunction = null;
+      function runWithState(f) {
+        if (funcStateMap.has(f)) {
+        } else {
+          var funcObj = { isInit: true, states: [], setStates: [] };
+          funcStateMap.set(f, funcObj);
+
+          f();
+
+          funcObj.isInit = false;
+        }
+      }
+      var stateIndex = 0;
+      function useState(initial) {
+        let currF = currentRunningFunction;
+        let funcObj = funcStateMap.get(f);
+        if (funcObj.isInit) {
+          funcObj.states.push(initial);
+          function setVal(newVal) {
+            funcObj.states[stateIndex] = newVal;
+            runWithState(currF);
+          }
+          funcObj.setStates.push(setVal);
+          stateIndex++;
+          return [initial, setVal];
+        } else {
+          let val = funcObj.states[stateIndex];
+          let setVal = funcObj.setStates[stateIndex];
+          stateIndex++;
+          return [val, setVal];
+        }
+      }
+      function f() {
+        let [a, setA] = useState(0);
+        let [b, setB] = useState(1);
+        console.log(a, b);
+
+        runWithState(g);
+      }
+
+      function g() {
+        let [count, setCount] = useState(5);
+        let [age, setAge] = useState(18);
+        let [sum, setSum] = useState(10);
+
+        console.log(count, age);
+      }
+
+      runWithState(f);
+
+      // class Test extends React.Component {
+      //   handleClick = (e, num) => {
+      //     console.log(e, num);
+      //   };
+      //   render() {
+      //     return <div onClick={e => this.handleClick(e, 2)}>div text</div>;
+      //   }
+      // }
+      // ReactDOM.render(<Test />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+
+    <!-- Don't use this in production: -->
+    <!-- <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
+    <script src="./babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class Counter extends React.Component {
+        constructor() {
+          super();
+          this.state = {
+            content: '<h1>Hello</h1>'
+          };
+        }
+
+        render() {
+          return <div>{this.state.content}</div>;
+        }
+      }
+
+      class Clock extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            now: new Date().toLocaleTimeString()
+          };
+        }
+
+        componentDidMount() {
+          this.intervalId = setInterval(() => {
+            this.setState({
+              now: new Date().toLocaleTimeString()
+            });
+          }, 1000);
+        }
+
+        componentWillUnmount() {
+          clearInterval(this.intervalId);
+        }
+
+        render() {
+          return <div>现在时间: {this.state.now}</div>;
+        }
+      }
+
+      function BlogPost({ title, content }) {
+        return (
+          <div>
+            <h1>{title}</h1>
+            <p>{content}</p>
+          </div>
+        );
+      }
+      // ReactDOM.render(<Counter />, document.getElementById('root'));
+      ReactDOM.render(
+        <div>
+          <Clock />
+          <BlogPost title="hello" content="this is my blog" />
+        </div>,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>

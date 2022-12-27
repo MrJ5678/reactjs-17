@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+
+    <!-- Don't use this in production: -->
+    <!-- <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
+    <script src="./babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class Counter extends React.Component {
+        constructor() {
+          super();
+          this.state = {
+            counter: 0
+          };
+        }
+
+        inc = () => {
+          console.log(this.state.counter);
+          this.setState(state => ({
+            counter: state.counter + 1
+          }));
+          console.log(this.state.counter);
+          this.setState(state => ({
+            counter: state.counter + 1
+          }));
+          console.log(this.state.counter);
+        };
+
+        dec = e => {
+          this.setState({
+            counter: this.state.counter - 1
+          });
+          console.log(e);
+        };
+
+        render() {
+          return (
+            <div>
+              <button onClick={this.dec}>-</button>
+              <span>{this.state.counter}</span>
+              <button onClick={this.inc}>+</button>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Counter />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+    <script src="./babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class App extends React.Component {
+        state = { count: 0 };
+        handleClick = () => {
+          this.setState({
+            count: this.state.count + 1
+          });
+        };
+        render() {
+          console.log('App render');
+          return (
+            <div>
+              <button onClick={this.handleClick}>Click</button>
+              {this.state.count}
+              <Foo />
+              <Bar />
+              <Fob fob="fob" />
+            </div>
+          );
+        }
+      }
+      class Foo extends React.Component {
+        shouldComponentUpdate(nextProps, nextStates) {
+          for (const key in nextProps) {
+            if (Object.hasOwnProperty.call(nextProps, key)) {
+              if (nextProps[key] !== this.props[key]) {
+                return true;
+              }
+            }
+          }
+          return false;
+        }
+        render() {
+          console.log('Foo render');
+          return <div>Foo</div>;
+        }
+      }
+
+      class Bar extends React.Component {
+        render() {
+          console.log('Bar render');
+          return (
+            <div>
+              <button onClick={() => this.forceUpdate()}>Bar</button>
+              <Baz />
+            </div>
+          );
+        }
+      }
+
+      const Fob = React.memo(function Fob() {
+        console.log('Fob render');
+        return <div>Fob</div>;
+      });
+
+      class Baz extends React.Component {
+        render() {
+          console.log('Baz render');
+          return <div>Baz</div>;
+        }
+      }
+
+      ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

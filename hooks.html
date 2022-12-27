@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+    <script src="./babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState, useEffect, useCallback } = React;
+      window.flag = true;
+      function Counter() {
+        if (window.flag) {
+          var [count, setCount] = useState(0);
+          var [age, setAge] = useState(10);
+          var [name, setName] = useState('jld');
+        } else {
+          var [name, setName] = useState('jld');
+          var [count, setCount] = useState(0);
+          var [age, setAge] = useState(10);
+        }
+        // let [count, setCount] = useState(0);
+        // var [count, setCount] = useState(0);
+        // var [age, setAge] = useState(10);
+        return (
+          <div>
+            <button onClick={() => setCount(count - 1)}>-</button>
+            <span>
+              {count} - {age}
+            </span>
+            <button onClick={() => setAge(age + 1)}>+</button>
+            <button onClick={() => setName(name + 1)}>set name</button>
+          </div>
+        );
+      }
+      ReactDOM.render(<Counter />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

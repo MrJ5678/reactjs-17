@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+    <script src="./babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class MyButton extends React.Component {
+        constructor(props) {
+          super(props);
+        }
+        render() {
+          return <button ref={this.props.aref}>My Button</button>;
+        }
+      }
+
+      const MyButton2 = React.forwardRef((props, ref) => {
+        return <MyButton aref={ref} {...props} />;
+      });
+
+      const MyButton3 = (function () {
+        class MyButton extends React.Component {
+          constructor(props) {
+            super(props);
+          }
+          render() {
+            return <button ref={this.props.forwardedRef}>My Button</button>;
+          }
+        }
+
+        function forwardRef(props, ref) {
+          return <MyButton {...props} forwardedRef={ref} />;
+        }
+
+        forwardRef.displayName = 'MyButton';
+        return React.forwardRef(forwardRef);
+      })();
+
+      class Test extends React.Component {
+        constructor() {
+          super();
+          console.log(this);
+          this.box3 = React.createRef();
+          this.btnRef = React.createRef();
+          this.MyButton2Ref = React.createRef();
+          this.MyButton3Ref = React.createRef();
+        }
+
+        handleClick = () => {
+          // console.log(this.refs.box);
+          this.box3.current.focus();
+        };
+
+        getInputRef = el => {
+          this.box2 = el;
+        };
+
+        render() {
+          return (
+            <div>
+              <button onClick={this.handleClick}>Click</button>
+              <input type="text" ref="box" />
+              <input type="text" ref={this.getInputRef} />
+              <input type="text" ref={this.box3} />
+              <MyButton key="foo" class="barr" aref={this.btnRef} />
+              <MyButton2 ref={this.MyButton2Ref} />
+              <MyButton3 ref={this.MyButton3Ref} class="Abc" />
+            </div>
+          );
+        }
+      }
+      ReactDOM.render(<Test />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

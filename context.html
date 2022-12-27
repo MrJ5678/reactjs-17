@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+    <script src="./babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      let UserContext = React.createContext();
+      // UserContext.Provider
+      // UserContext.Consumer
+
+      class Foo extends React.Component {
+        render() {
+          return (
+            <div>
+              <UserContext.Consumer>
+                {userCtxValue => (
+                  <span>
+                    Foo: x - {userCtxValue.x} y - {userCtxValue.y}
+                  </span>
+                )}
+              </UserContext.Consumer>
+            </div>
+          );
+        }
+      }
+      class Bar extends React.Component {
+        static contextType = UserContext;
+
+        render() {
+          return (
+            <div>
+              <span>
+                bar: x -{this.context.x} y - {this.context.y}
+              </span>
+            </div>
+          );
+        }
+      }
+
+      class Test extends React.Component {
+        render() {
+          return (
+            <div>
+              <Foo />
+              <Bar />
+            </div>
+          );
+        }
+      }
+      class App extends React.Component {
+        state = {
+          user: {
+            x: 1,
+            y: 2
+          }
+        };
+        update = () => {
+          this.setState({
+            user: {
+              ...this.state.user,
+              y: this.state.user.y + 1
+            }
+          });
+        };
+
+        render() {
+          return (
+            <div>
+              <button onClick={this.update}>Change App state user</button>
+              <UserContext.Provider value={this.state.user}>
+                <Test />
+              </UserContext.Provider>
+            </div>
+          );
+        }
+      }
+      ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

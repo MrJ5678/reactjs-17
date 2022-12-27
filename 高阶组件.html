@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="./react.development.js"></script>
+    <script src="./react-dom.development.js"></script>
+    <script src="./babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function getDisplayName(WrappedComponent) {
+        return (
+          WrappedComponent.displayName || WrappedComponent.name || 'Component'
+        );
+      }
+      function highOrder(Comp) {
+        class EnhancedComp extends React.Component {
+          render() {
+            const { enhancedCompRef, ...props } = this.props;
+            return (
+              <>
+                <div>Enhanced Component</div>
+                <Comp {...props} ref={enhancedCompRef} />
+              </>
+            );
+          }
+        }
+
+        function forwardRef(props, ref) {
+          return <EnhancedComp {...props} enhancedCompRef={ref} />;
+        }
+
+        forwardRef.displayName = `WrappedForwardRefHighOrder(${getDisplayName(
+          Comp
+        )})`;
+        return React.forwardRef(forwardRef);
+      }
+
+      class Basic extends React.Component {
+        render() {
+          const { style, class: propsValue } = this.props;
+          return (
+            <span style={style}>
+              Basic component - propsValue: {propsValue}
+            </span>
+          );
+        }
+      }
+
+      const EnhancedComponent = highOrder(Basic);
+
+      class Test extends React.Component {
+        constructor(props) {
+          super(props);
+          this.testRef = React.createRef();
+        }
+        render() {
+          // console.log(this);
+          return (
+            <EnhancedComponent
+              ref={this.testRef}
+              class="test"
+              style={{ width: '200px' }}
+            />
+          );
+        }
+      }
+
+      ReactDOM.render(<Test />, document.getElementById('root'));
+    </script>
+  </body>
+</html>
